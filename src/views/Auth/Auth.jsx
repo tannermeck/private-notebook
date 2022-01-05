@@ -21,9 +21,8 @@ export default function Auth({ isSigningUp = false }) {
         history.replace('/confirm-email')
 
       } else {
-        signInUser(email, password).then((user) =>
-        setUser({id: user.id, email: user.email})
-        )
+        const user = await signInUser(email, password);
+        await setUser({id: user.id, email: user.email});
         history.replace('/notes')
         // If signing in: set the user ({id, email}) and redirect to /notes
       }
