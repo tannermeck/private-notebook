@@ -8,14 +8,26 @@ import styles from './Auth.css';
 
 export default function Auth({ isSigningUp = false }) {
   const history = useHistory();
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
 
   const handleSubmit = async (email, password) => {
     try {
       // TODO: Implement sign up & sign
       // Use isSigningUp to determine whether to sign up or sign in a user
-      // If signing in: set the user ({id, email}) and redirect to /notes
-      // If signing up: redirect to /confirm-email
+      if (isSigningUp){
+        // If signing up: redirect to /confirm-email
+        signUpUser(email, password)
+        history.replace('/confirm-email')
+
+      } else {
+        signInUser(email, password)
+        console.log(user)
+        setUser({...user.id, email})
+        history.replace('/notes')
+        // If signing in: set the user ({id, email}) and redirect to /notes
+
+
+      }
       // Use the corresponding functions from `/services/users` for both cases
     } catch (error) {
       throw error;
