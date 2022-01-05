@@ -8,9 +8,10 @@ import styles from './Auth.css';
 
 export default function Auth({ isSigningUp = false }) {
   const history = useHistory();
-  const { user, setUser } = useUser();
-
+  const { setUser } = useUser();
+  
   const handleSubmit = async (email, password) => {
+    
     try {
       // TODO: Implement sign up & sign
       // Use isSigningUp to determine whether to sign up or sign in a user
@@ -20,13 +21,11 @@ export default function Auth({ isSigningUp = false }) {
         history.replace('/confirm-email')
 
       } else {
-        signInUser(email, password)
-        console.log(user)
-        setUser({...user.id, email})
+        signInUser(email, password).then((user) =>
+        setUser({id: user.id, email: user.email})
+        )
         history.replace('/notes')
         // If signing in: set the user ({id, email}) and redirect to /notes
-
-
       }
       // Use the corresponding functions from `/services/users` for both cases
     } catch (error) {
